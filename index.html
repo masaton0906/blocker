@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>テスト用のhtml</title>
+        <style>
+            * {padding: 0; margin: 0;}
+            canvas{background: #eee; display: block; margin:0 auto;}
+        </style>
+    </head>
+    <body>
+        <h1>ブロック崩しver1</h1>
+
+        <canvas id="myCanvas" width="500" height="250"></canvas>
+        <script>
+            var canvas = document.getElementById("myCanvas");
+            var ctx = canvas.getContext("2d");
+
+            var x = canvas.width/2;
+            var y = canvas.height-30;
+
+            var dx = 2;
+            var dy = -2;
+
+            var ballRadius = 10;
+
+            function drawBall(){
+                ctx.beginPath();
+                ctx.arc(x, y, ballRadius, 0, Math.PI*2);
+                ctx.fillStyle = "#0095DD";
+                ctx.fill();
+                ctx.closePath();
+            }
+
+            var paddleHeight = 10;
+            var paddlewidth = 75;
+            var paddleX = (canvas.width - paddlewidth) / 2;
+
+            function drawRect(){
+                ctx.beginPath();
+                ctx.rect(paddleX, canvas.height - paddleHeight, paddlewidth, paddleHeight);
+                ctx.fillStyle = "#0095DD";
+                ctx.fill();
+                ctx.closePath();
+            }
+
+            document.addEventListener("keydown", keyDownHandler, false);
+            document.addEventListener("keyup", KeyUpHander, false);
+            var rightPressed = false;
+            var leftPressed = false;
+
+            function keyDownHandler(e){
+                KeyHander(e, true);
+            }
+
+            function KeyUpHander(e){
+                KeyHander(e, false);
+            }
+
+            function KeyHander(e, pressed){
+                if(e.key == "Right" || e.key == "ArrowRight"){
+                    rightPressed = pressed;
+                }
+                else if(e.key == "Left" || e.key == "ArrowLeft"){
+                    leftPressed = pressed;
+                }
+            }
+
+            function draw(){
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                drawBall();
+                drawRect();
+                x += dx;
+                y += dy;
+
+                //画面上に突き抜けないよう
+                if(y + dy < 0){
+                    dy = -dy;
+                }
+
+                //画面左に突き抜けないよう
+                if(x + dx < 0){
+                    dx = -dx;
+                }
+
+                //画面右に突き抜けないよう
+                if(x >= 500){
+                    dx = -dx;
+                }
+
+                //板でボールを跳ね返す
+                if(y == 250){
+                    if(paddleX <= x && x <= paddleX + paddlewidth){
+                    dy = -dy;
+                    }
+                }
+
+                if(rightPressed){
+                    paddleX += 7;
+                }
+
+                if(leftPressed){
+                    paddleX -= 7;
+                }
+
+                if(y > canvas.height){
+                    clearInterval(draw);
+                    alert("げーむおーばー");
+                    
+                    document.location.reload();
+                    clearInterval(interval);
+                }
+            }
+
+            var interval = setInterval(draw, 20);
+        </script>
+    </body>
+</html>
