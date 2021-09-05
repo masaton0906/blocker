@@ -6,11 +6,20 @@
         <style>
             * {padding: 0; margin: 0;}
             canvas{background: #eee; display: block; margin:0 auto;}
+
+            #text-button{
+                display:block;
+                cursor:pointer;
+                width:160px;
+                text-align:center;
+                border:1px solid #232323;
+            }
         </style>
     </head>
     <body>
-        <h1>ブロック崩しver1</h1>
-
+        <h1>ブロック崩しver1.0</h1>
+        <div id = "text-button"><p id = "pause">一時停止</div>
+        
         <canvas id="myCanvas" width="500" height="250"></canvas>
         <script>
             var canvas = document.getElementById("myCanvas");
@@ -66,6 +75,21 @@
                 }
             }
 
+            canvas.addEventListener("mousemove", e => {
+                paddleX = e.offsetX;
+            });
+
+            var isPause = false;
+            document.getElementById("text-button").onclick = function(){
+                if(isPause){
+                    interval = setInterval(draw, 20);
+                }
+                else{
+                    clearInterval(interval);
+                    isPause = true;
+                }
+            };
+
             function draw(){
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 drawBall();
@@ -105,7 +129,7 @@
 
                 if(y > canvas.height){
                     clearInterval(draw);
-                    alert("げーむおーばー");
+                    //alert("げーむおーばー");
                     
                     document.location.reload();
                     clearInterval(interval);
