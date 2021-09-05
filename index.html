@@ -8,17 +8,48 @@
             canvas{background: #eee; display: block; margin:0 auto;}
 
             #text-button{
+                position:absolute;
                 display:block;
                 cursor:pointer;
                 width:160px;
+                height: 40px;;
+                top:450px;
+                left:320px;
                 text-align:center;
                 border:1px solid #232323;
             }
+
+            #button-left{
+                position:absolute;
+                display:block;
+                cursor:pointer;
+                width:160px;
+                height:100px;
+                left:150px;
+                top:330px;
+                text-align:center;
+                border:1px solid #232323;
+            }
+
+            #button-right{
+                position:absolute;
+                display:block;
+                cursor:pointer;
+                width:160px;
+                height:100px;
+                left:490px;
+                top:330px;
+                text-align:center;
+                border:1px solid #232323;
+            }
+            
         </style>
     </head>
     <body>
         <h1>ブロック崩しver1.0</h1>
         <div id = "text-button"><p id = "pause">一時停止</div>
+        <div id = "button-left"><p id = "buttonleft">左</div>
+        <div id = "button-right"><p id = "buttonright">右</div>
         
         <canvas id="myCanvas" width="500" height="250"></canvas>
         <script>
@@ -89,6 +120,22 @@
                     isPause = true;
                 }
             };
+
+            var buttonleft = document.getElementById("buttonleft");
+            buttonleft.onmousedown = function(){
+                leftPressed = true;
+            }
+            buttonleft.onmouseup = function(){
+                leftPressed = false;
+            }
+
+            var buttonright = document.getElementById("buttonright");
+            buttonright.onmousedown = function(){
+                rightPressed = true;
+            }
+            buttonright.onmouseup = function(){
+                rightPressed = false;
+            }
 
             function draw(){
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
